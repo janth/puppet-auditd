@@ -511,7 +511,7 @@ class auditd (
   # If a hash of rules is supplied with class then call auditd::rules defined type to apply them
   $rules.each |$key,$opts| { 
     auditd::rule { $key:
-      * => $opts,
+      * => pick($opts,{}),
     }
   }
 

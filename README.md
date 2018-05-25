@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/kemra102/puppet-auditd.svg?branch=master)](https://travis-ci.org/kemra102/puppet-auditd)
 
 ## Warning
-This is a hotfix module created for a customer. Do not use this module unless instrcuted. The upstream module is (kemra102-auditd)[https://github.com/kemra102/puppet-auditd] and is owned by its original authors.
+This is a hotfix module created for a customer. Do not use this module unless instructed. The upstream module is kemra102-auditd from https://github.com/kemra102/puppet-auditd and is owned by its original authors.
 
 #### Table of Contents
 

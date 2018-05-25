@@ -1,6 +1,6 @@
 {
   "name": "geoffwilliams-auditd",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "author": "Danny Roberts",
   "summary": "Manage the audit daemon and it's rules.",
   "license": "BSD-2-Clause",

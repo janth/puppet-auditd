@@ -1,0 +1,5 @@
+updating concat req
+https://github.com/Logicworks/puppet-auditd/commit/d42f1067ff51c4164ce0741f2ac8a66f731f138a
+
+Support for `log_format`: `ENRICHED`
+https://github.com/GeoffWilliams/puppet-auditd_KM/commit/3ee048ce6e86273d0030300237628f992c3bfc49

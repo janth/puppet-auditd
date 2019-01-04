@@ -20,7 +20,7 @@ class auditd::params {
       }
     }
     'Suse': {
-      $package_name       = 'audit'
+      $package_name         = 'audit'
       if versioncmp($::operatingsystemrelease, '12') >= 0 and $::operatingsystem == 'SLES' {
         $audisp_package     = 'audit-audispd-plugins'
         $manage_audit_files = true
@@ -104,8 +104,8 @@ class auditd::params {
   $krb5_key_file           = undef
 
   # Rules Header variables
-  $buffer_size      = '8192'
-  $continue_loading = false
+  $buffer_size             = '8192'
+  $continue_loading        = false
 
   # Audisp main config variables
   $audisp_q_depth          = 80
@@ -116,7 +116,7 @@ class auditd::params {
   $audisp_name             = undef
 
   # Give the option of managing the service.
-  $manage_service         = true
-  $service_ensure         = 'running'
-  $service_enable         = true
+  $manage_service          = true
+  $service_ensure          = 'running'
+  $service_enable          = true
 }

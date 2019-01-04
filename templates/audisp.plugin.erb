@@ -1,7 +1,7 @@
 #
 # This file is managed by Puppet.
 #
-active = <%= @real_active %>
+active = <%= @active ? 'yes' : 'no' %>
 direction = <%= @direction %>
 type = <%= @type %>
 path = <%= @path %>

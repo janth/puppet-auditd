@@ -3,3 +3,6 @@ https://github.com/Logicworks/puppet-auditd/commit/d42f1067ff51c4164ce0741f2ac8a
 
 Support for `log_format`: `ENRICHED`
 https://github.com/GeoffWilliams/puppet-auditd_KM/commit/3ee048ce6e86273d0030300237628f992c3bfc49
+
+Replace legacy validation with data types
+https://github.com/jamebus/puppet-auditd/tree/validate_legacy

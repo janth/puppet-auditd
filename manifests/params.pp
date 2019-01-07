@@ -3,24 +3,52 @@ class auditd::params {
   # OS specific variables.
   case $::osfamily {
     'Debian': {
-      $package_name       = 'auditd'
-      $audisp_package     = 'audispd-plugins'
-      $manage_audit_files = false
-      $rules_file         = '/etc/audit/rules.d/audit.rules'
+      $package_name          = 'auditd'
+      $audisp_package        = 'audispd-plugins'
+      $manage_audit_files    = false
+      $rules_file            = '/etc/audit/rules.d/audit.rules'
 
-      case $::lsbmajdistrelease {
-        '8': {
-          $service_restart = '/bin/systemctl restart auditd'
-          $service_stop    = '/bin/systemctl stop auditd'
+      case $::operatingsystem {
+        'Ubuntu': {
+          if (versioncmp($::operatingsystemrelease, '15.04') >= 0) {
+            $service_restart = '/bin/systemctl restart auditd'
+            $service_stop    = '/bin/systemctl stop auditd'
+            $has_systemd     = true
+          } else {
+            $service_restart = '/etc/init.d/auditd restart'
+            $service_stop    = '/etc/init.d/auditd stop'
+            $has_systemd     = false
+          }
+
+          if (versioncmp($::operatingsystemrelease, '16.10') >= 0) {
+            $flush           = 'incremental_async'
+          } else {
+            $flush           = 'incremental'
+          }
         }
         default: {
-          $service_restart = '/etc/init.d/auditd restart'
-          $service_stop    = '/etc/init.d/auditd stop'
+          if ($::lsbmajdistrelease >= 8) {
+            $service_restart = '/bin/systemctl restart auditd'
+            $service_stop    = '/bin/systemctl stop auditd'
+            $has_systemd     = true
+          } else {
+            $service_restart = '/etc/init.d/auditd restart'
+            $service_stop    = '/etc/init.d/auditd stop'
+            $has_systemd     = false
+          }
+
+          if ($::lsbmajdistrelease >= 9) {
+            $flush           = 'incremental_async'
+          } else {
+            $flush           = 'incremental'
+          }
         }
       }
     }
     'Suse': {
-      $package_name       = 'audit'
+      $package_name         = 'audit'
+      $flush                = 'incremental_async'
+
       if versioncmp($::operatingsystemrelease, '12') >= 0 and $::operatingsystem == 'SLES' {
         $audisp_package     = 'audit-audispd-plugins'
         $manage_audit_files = true
@@ -40,21 +68,23 @@ class auditd::params {
       $package_name       = 'audit'
       $audisp_package     = 'audispd-plugins'
       $manage_audit_files = true
+      $flush              = 'incremental_async'
 
       if $::operatingsystem != 'Amazon' and versioncmp($::operatingsystemrelease, '7') >= 0 {
-        $rules_file      = '/etc/audit/rules.d/puppet.rules'
-        $service_restart = '/usr/libexec/initscripts/legacy-actions/auditd/restart'
-        $service_stop    = '/usr/libexec/initscripts/legacy-actions/auditd/stop'
+        $rules_file       = '/etc/audit/rules.d/puppet.rules'
+        $service_restart  = '/usr/libexec/initscripts/legacy-actions/auditd/restart'
+        $service_stop     = '/usr/libexec/initscripts/legacy-actions/auditd/stop'
       } else {
-        $rules_file      = '/etc/audit/audit.rules'
-        $service_restart = '/etc/init.d/auditd restart'
-        $service_stop    = '/etc/init.d/auditd stop'
+        $rules_file       = '/etc/audit/audit.rules'
+        $service_restart  = '/etc/init.d/auditd restart'
+        $service_stop     = '/etc/init.d/auditd stop'
       }
     }
     'Archlinux': {
       $package_name       = 'audit'
       $audisp_package     = 'audit'
       $manage_audit_files = false
+      $flush              = 'incremental_async'
       $rules_file         = '/etc/audit/audit.rules'
       $service_restart    = '/usr/bin/kill -s SIGHUP $(cat /var/run/auditd.pid)'
       $service_stop       = '/usr/bin/kill -s SIGTERM $(cat /var/run/auditd.pid)'
@@ -63,6 +93,7 @@ class auditd::params {
       $package_name       = 'audit'
       $audisp_package     = 'audit'
       $manage_audit_files = false
+      $flush              = 'incremental_async'
       $rules_file         = '/etc/audit/audit.rules'
       $service_restart    = '/etc/init.d/auditd restart'
       $service_stop       = '/etc/init.d/auditd stop'
@@ -78,7 +109,6 @@ class auditd::params {
   $log_group               = 'root'
   $write_logs              = undef
   $priority_boost          = '4'
-  $flush                   = 'incremental_async'
   $freq                    = '20'
   $num_logs                = '5'
   $disp_qos                = 'lossy'
@@ -104,8 +134,8 @@ class auditd::params {
   $krb5_key_file           = undef
 
   # Rules Header variables
-  $buffer_size      = '8192'
-  $continue_loading = false
+  $buffer_size             = '8192'
+  $continue_loading        = false
 
   # Audisp main config variables
   $audisp_q_depth          = 80
@@ -116,7 +146,7 @@ class auditd::params {
   $audisp_name             = undef
 
   # Give the option of managing the service.
-  $manage_service         = true
-  $service_ensure         = 'running'
-  $service_enable         = true
+  $manage_service          = true
+  $service_ensure          = 'running'
+  $service_enable          = true
 }

@@ -410,6 +410,36 @@ class auditd (
     ],
   }
 
+  # Make sure Debian and Ubuntu use augenrules. Not all versions use it, and it
+  # could be disabled by administrative action.
+  if $::osfamily == 'Debian' {
+    file { '/etc/default/auditd':
+      ensure => 'file',
+      owner  => 'root',
+      group  => 'root',
+      mode   => '0644',
+      source => "puppet:///modules/${module_name}/default.debian"
+    }
+
+    if $::auditd::params::has_systemd {
+      file { '/etc/systemd/system/auditd.service':
+        ensure  => 'file',
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
+        content => template("${module_name}/systemd.debian.erb"),
+        notify  => Exec['load-auditd-service']
+      }
+
+      exec { 'load-auditd-service':
+        command     => 'systemctl daemon-reload',
+        refreshonly => true,
+        path        => $facts['path'],
+        notify      => Service['auditd']
+      }
+    }
+  }
+
   # Configure required config files
   file { '/etc/audit/auditd.conf':
     ensure  => 'file',

@@ -6,3 +6,7 @@ https://github.com/GeoffWilliams/puppet-auditd_KM/commit/3ee048ce6e86273d0030300
 
 Replace legacy validation with data types
 https://github.com/jamebus/puppet-auditd/tree/validate_legacy
+
+Add Ubuntu support and improve Debian support
+Start auditd after network is online if we’re listening on a port
+https://github.com/jamebus/puppet-auditd/tree/production

@@ -331,7 +331,8 @@ class auditd (
 
   # Config file variables
   Stdlib::Absolutepath           $log_file                = $::auditd::params::log_file,
-  Enum['RAW', 'NOLOG']           $log_format              = $::auditd::params::log_format,
+  Enum['RAW', 'NOLOG',
+           'ENRICHED']           $log_format              = $::auditd::params::log_format,
   String                         $log_group               = $::auditd::params::log_group,
   Optional[Auditd::Yesno]        $write_logs              = $::auditd::params::write_logs,
   Auditd::Integerish             $priority_boost          = $::auditd::params::priority_boost,
